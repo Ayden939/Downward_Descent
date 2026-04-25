@@ -38,6 +38,11 @@ class Goblin(Enemy):
         super().__init__("Goblin", 20, 90, "common")
 
 
+class Orc(Enemy):
+
+    def __init__(self):
+        super().__init__("Orc", 30, 100, "rare")
+
 class Phantom(Enemy):
 
     def __init__(self):
@@ -50,3 +55,15 @@ class Phantom(Enemy):
 
         print(f"{self.name} grows stronger...")
         self.strength += 2
+
+class King(Enemy):
+    def __init__(self):
+        super().__init__("Monster King", 35, 400, "unique")
+    
+    def attack(self, target):
+        strike = self.strength + random.randint(0,15)
+        print(f"{self.name} attacks {target.name} for {strike} damage!")
+        target.incoming_damage(strike)
+
+        print(f"{self.name} grows furious...")
+        self.strength += 5

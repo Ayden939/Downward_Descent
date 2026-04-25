@@ -10,7 +10,7 @@ root is where tkinter places it
 
 import tkinter as tk
 from character import Character
-from enemy import Skeleton, Goblin, Phantom
+from enemy import Skeleton, Goblin, Orc, Phantom, King
 from database import log
 import database
 import random
@@ -21,7 +21,7 @@ from loot import loot_drop
 hero = Character("Lady Samantha Rostnovak", 1)
 floor = 1
 retreat = False
-enemy = random.choice([Skeleton(), Goblin(), Phantom()])
+enemy = random.choice([Skeleton(), Goblin()])
 
 # Tkinter GUI setup
 root = tk.Tk()      # This creates the window, and root.title just applies the title to it
@@ -101,7 +101,20 @@ def new_floor():
     global floor, enemy
     floor = floor + 1
     floor_label.config(text = f"Floor: {floor}")
-    enemy = random.choice([Skeleton(), Goblin(), Phantom()])
+    if(floor <= 4):
+        pool = [Skeleton(), Goblin()]
+    elif(floor >= 5 and floor <= 7):
+        pool = [Skeleton(), Goblin(), Orc()]
+    elif(floor >= 8 and floor <= 9):
+        pool = [Orc(), Phantom()]
+    elif(floor == 10):
+        pool = [King()]
+    else:
+        disable_buttons()
+        update_labels("You cleared the dungeon!")
+        return
+    
+    enemy = random.choice(pool)
     update_labels(f"A {enemy.name} appears!")
 
 def equip_items(equipment, enemy):
