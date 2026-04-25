@@ -20,7 +20,6 @@ from loot import loot_drop
 # Game objects
 hero = Character("Lady Samantha Rostnovak", 1)
 floor = 1
-retreat = False
 enemy = random.choice([Skeleton(), Goblin()])
 
 # Tkinter GUI setup
@@ -52,14 +51,14 @@ def attack():
     if(enemy.health <= 0):
         update_labels("Enemy defeated!")
         item = loot_drop(enemy.rarity, hero)
+        log("Lady Samantha Rostnovak", hero.generation, "Killed Enemy", 0, floor)
         if item:
             disable_buttons()
             equip_items(item, enemy)
         else:
             new_floor()
         return
-        log("Lady Samantha Rostnovak", hero.generation, "Killed Enemy", 0, floor)
-        return
+        
     enemy.attack(hero)
     update_labels(f"{hero.name} attacks {enemy.name} for {damage} damage!")
 
