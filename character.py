@@ -9,12 +9,13 @@ import random
 class  Character:
 
 
-    def __init__(self, name, generation, weapon = None, armor = None):
+    def __init__(self, name, generation, gold = 0, weapon = None, armor = None):
         self.name = name
         self.floor = 1
         self.health = 100
         self.strength = 20
         self.generation = generation
+        self.gold = gold
         self.weapon = weapon
         self.armor = armor
     

@@ -49,14 +49,15 @@ output_label.config(text = "The towns greatest hero, Lady Samantha Rostnovak, en
 def attack():
     damage = hero.attack(enemy)
     if(enemy.health <= 0):
-        update_labels("Enemy defeated!")
+        hero.gold += 20
+        update_labels(f"Enemy defeated! You have {hero.gold} gold!")
         item = loot_drop(enemy.rarity, hero)
         log("Lady Samantha Rostnovak", hero.generation, "Killed Enemy", 0, floor)
         if item:
             disable_buttons()
-            equip_items(item, enemy)
+            root.after(1000, lambda: equip_items(item, enemy))
         else:
-            new_floor()
+            root.after(1000, new_floor)
         return
         
     enemy.attack(hero)
