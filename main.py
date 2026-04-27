@@ -9,6 +9,7 @@ root is where tkinter places it
 """
 
 import tkinter as tk
+import tkinter.simpledialog as simpledialog
 from character import Character
 from enemy import Skeleton, Goblin, Orc, Phantom, King
 from database import log
@@ -16,6 +17,8 @@ import database
 import random
 from equipment import Sword, Shield
 from loot import loot_drop
+
+
 
 # Game objects
 hero = Character("Lady Samantha Rostnovak", 1)
@@ -27,6 +30,10 @@ root = tk.Tk()      # This creates the window, and root.title just applies the t
 root.title("Legacy Game")
 root.geometry("500x300")
 
+# Character name
+name = simpledialog.askstring("Name", "What is your heros name: ")
+if name:
+    hero.name = name
 
 # Info Labels
 floor_label = tk.Label(root, text=f"Floor: {floor}")
@@ -42,7 +49,7 @@ output_label = tk.Label(root, text = "")
 output_label.pack(expand = True, fill = "both", padx = 1, pady = 1)
 
 
-output_label.config(text = "The towns greatest hero, Lady Samantha Rostnovak, enters the dungeon. Little is known about the dungeon except\n"
+output_label.config(text = f"The towns greatest hero, {hero.name}, enters the dungeon. Little is known about the dungeon except\n"
 "that it has been around long before any person had settled there. Many have dove in to explore the depths, but most have fallen,\n"
 "and none have gone very far. There are a hundreed floors, and a long adventure for our courageous hero.")
 
