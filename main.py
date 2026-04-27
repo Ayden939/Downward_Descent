@@ -32,7 +32,7 @@ root.geometry("500x300")
 floor_label = tk.Label(root, text=f"Floor: {floor}")
 floor_label.pack(padx = 1, pady = 1)
 
-hero_label = tk.Label(root, text=f"{hero.name} HP: {hero.health}")
+hero_label = tk.Label(root, text=f"{hero.name} HP: {hero.health} | Gold: {hero.gold}")
 hero_label.pack(padx = 1, pady = 1)
 
 enemy_label = tk.Label(root, text=f"{enemy.name} Enemy HP: {enemy.health}")
@@ -49,8 +49,9 @@ output_label.config(text = "The towns greatest hero, Lady Samantha Rostnovak, en
 def attack():
     damage = hero.attack(enemy)
     if(enemy.health <= 0):
-        hero.gold += 20
-        update_labels(f"Enemy defeated! You have {hero.gold} gold!")
+        gold_drop = random.randint(10,25)
+        hero.gold += gold_drop
+        update_labels(f"Enemy defeated!")
         item = loot_drop(enemy.rarity, hero)
         log("Lady Samantha Rostnovak", hero.generation, "Killed Enemy", 0, floor)
         if item:
@@ -88,7 +89,7 @@ def retreat():
     return 
 
 def update_labels(text):
-    hero_label.config(text = f"{hero.name} HP: {hero.health}")
+    hero_label.config(text = f"{hero.name} HP: {hero.health} | Gold: {hero.gold}")
     enemy_label.config(text = f"{enemy.name} HP: {enemy.health}")
     output_label.config(text = text)
 
