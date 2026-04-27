@@ -48,6 +48,14 @@ enemy_label.pack(padx = 1, pady = 1)
 output_label = tk.Label(root, text = "")
 output_label.pack(expand = True, fill = "both", padx = 1, pady = 1)
 
+# Styling
+
+root.configure(bg="black")
+
+hero_label.config(bg="black", fg="white")
+enemy_label.config(bg="black", fg="white")
+floor_label.config(bg="black", fg="white")
+output_label.config(bg="black", fg="white", wraplength=450)
 
 output_label.config(text = f"The towns greatest hero, {hero.name}, enters the dungeon. Little is known about the dungeon except\n"
 "that it has been around long before any person had settled there. Many have dove in to explore the depths, but most have fallen,\n"
