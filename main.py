@@ -57,9 +57,13 @@ enemy_label.config(bg="black", fg="white")
 floor_label.config(bg="black", fg="white")
 output_label.config(bg="black", fg="white", wraplength=450)
 
-output_label.config(text = f"The towns greatest hero, {hero.name}, enters the dungeon. Little is known about the dungeon except\n"
-"that it has been around long before any person had settled there. Many have dove in to explore the depths, but most have fallen,\n"
-"and none have gone very far. There are a hundreed floors, and a long adventure for our courageous hero.")
+output_label.config(text = "Five years ago the world was peaceful. People attended daily life, children went to school, people dated, traveled,"
+"life was... good.\n\n"
+"That changed when the earth opened up, and the beasts arrived.\n\n"
+"Since then, over half of the "
+"worlds population was simply destroyed. Cities burned, homes were lost, people were killed. \n\n"
+"You are the last hope of humanity. Descend the depths of this dungeon, find the king of these"
+f" demons, and end this. Good luck, and farewll {hero.name}.")
 
 def attack():
     damage = hero.attack(enemy)
@@ -161,22 +165,24 @@ def enable_actions():
     attack_btn.config(state="normal")
     heal_btn.config(state="normal")
     retreat_btn.config(state="normal")
-    attack_btn.pack()
-    heal_btn.pack()
-    retreat_btn.pack()
+    attack_btn.pack(side = "left", padx = 5)
+    heal_btn.pack(side = "left", padx = 5)
+    retreat_btn.pack(side = "left", padx = 5)
 
-attack_btn = tk.Button(root, text = "Attack", command = attack)
-attack_btn.pack()
-heal_btn = tk.Button(root, text = "Heal", command = heal)
-heal_btn.pack()
-retreat_btn = tk.Button(root, text = "Retreat", command = retreat)
-retreat_btn.pack()
+button_frame = tk.Frame(root, bg="black")
+button_frame.pack(pady=10)
+attack_btn = tk.Button(button_frame, text = "Attack", command = attack)
+attack_btn.pack(side = "left", padx = 5)
+heal_btn = tk.Button(button_frame, text = "Heal", command = heal)
+heal_btn.pack(side = "left", padx = 5)
+retreat_btn = tk.Button(button_frame, text = "Retreat", command = retreat)
+retreat_btn.pack(side = "left", padx = 5)
 
 # This will create a pop-up for equipping items
 equip_screen = tk.Frame(root)
 yes_btn = tk.Button(equip_screen, text = "Yes")
 yes_btn.pack(side="left")
-no_btn = tk.Button(equip_screen, text = "N0")
+no_btn = tk.Button(equip_screen, text = "No")
 no_btn.pack(side="right")
 equip_screen.pack_forget()
 
