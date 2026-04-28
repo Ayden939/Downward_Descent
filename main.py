@@ -36,14 +36,17 @@ if name:
     hero.name = name
 
 # Info Labels
-floor_label = tk.Label(root, text=f"Floor: {floor}")
+floor_label = tk.Label(root, text="")
 floor_label.pack(padx = 1, pady = 1)
 
-hero_label = tk.Label(root, text=f"{hero.name} HP: {hero.health} | Gold: {hero.gold}")
+
+hero_label = tk.Label(root, text="")
 hero_label.pack(padx = 1, pady = 1)
 
-enemy_label = tk.Label(root, text=f"{enemy.name} Enemy HP: {enemy.health}")
+
+enemy_label = tk.Label(root, text="")
 enemy_label.pack(padx = 1, pady = 1)
+
 
 output_label = tk.Label(root, text = "")
 output_label.pack(expand = True, fill = "both", padx = 1, pady = 1)
@@ -72,7 +75,7 @@ def attack():
         hero.gold += gold_drop
         update_labels(f"Enemy defeated!")
         item = loot_drop(enemy.rarity, hero)
-        log("Lady Samantha Rostnovak", hero.generation, "Killed Enemy", 0, floor)
+        log(hero.name, hero.generation, "Killed Enemy", 0, floor)
         if item:
             disable_buttons()
             root.after(1000, lambda: equip_items(item, enemy))
@@ -169,6 +172,23 @@ def enable_actions():
     heal_btn.pack(side = "left", padx = 5)
     retreat_btn.pack(side = "left", padx = 5)
 
+def start_game():
+    start_btn.pack_forget()
+    button_frame.pack(pady = 10)
+    update_labels(f"A {enemy.name} appears, it's eyes burning red.")
+    floor_label.config(text=f"Floor: {floor}")
+    hero_label.config(text=f"{hero.name} HP: {hero.health} | Gold: {hero.gold}")
+    enemy_label.config(text=f"{enemy.name} Enemy HP: {enemy.health}")
+
+def on_resize(event):
+    new_size = max(10, int(event.height / 40))
+    output_label.config(
+        wraplength = event.width - 40,
+        font = ("Arial", new_size)
+    )
+root.bind("<Configure>", on_resize)
+
+# This will create my buttons
 button_frame = tk.Frame(root, bg="black")
 button_frame.pack(pady=10)
 attack_btn = tk.Button(button_frame, text = "Attack", command = attack)
@@ -177,6 +197,10 @@ heal_btn = tk.Button(button_frame, text = "Heal", command = heal)
 heal_btn.pack(side = "left", padx = 5)
 retreat_btn = tk.Button(button_frame, text = "Retreat", command = retreat)
 retreat_btn.pack(side = "left", padx = 5)
+button_frame.pack_forget()
+
+start_btn = tk.Button(root, text = "Descend", command = start_game)
+start_btn.pack(pady = 10)
 
 # This will create a pop-up for equipping items
 equip_screen = tk.Frame(root)
