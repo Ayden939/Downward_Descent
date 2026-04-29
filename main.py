@@ -2,6 +2,7 @@
 label = tk.label(root, text = 'Some Text')
 label.pack
 
+
 Label will display text/images
 root is where tkinter places it
 .pack(), .grid(), .place() actually places it
@@ -133,18 +134,24 @@ def new_floor():
     elif(floor == 10):
         pool = [King()]
     else:
-        win()
+        disable_buttons()
+        output_label.config(text = "The king staggers...")
+        root.after(1500, lambda: win())
         return
     
     enemy = random.choice(pool)
     update_labels(f"A {enemy.name} appears!")
 
 def win():
-    disable_buttons()
-    update_labels("You cleared the dungeon!")
     floor_label.config(text = "")
     hero_label.config(text = "")
     enemy_label.config(text = "")
+    output_label.config(text = "As the King of Monsters collapses before you, the dungeon falls silent.\n\n"
+    "With his final breath, he speaks:\n\n"
+    "\"You may have won... today.\n\n"
+    "But I was never your enemy.\n\n"
+    "I stood guard... against what lies beyond.\n\n"
+    "Now... you must face it... alone.\"")
     attack_btn.pack_forget()
     heal_btn.pack_forget()
     retreat_btn.pack_forget()
