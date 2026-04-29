@@ -133,12 +133,22 @@ def new_floor():
     elif(floor == 10):
         pool = [King()]
     else:
-        disable_buttons()
-        update_labels("You cleared the dungeon!")
+        win()
         return
     
     enemy = random.choice(pool)
     update_labels(f"A {enemy.name} appears!")
+
+def win():
+    disable_buttons()
+    update_labels("You cleared the dungeon!")
+    floor_label.config(text = "")
+    hero_label.config(text = "")
+    enemy_label.config(text = "")
+    attack_btn.pack_forget()
+    heal_btn.pack_forget()
+    retreat_btn.pack_forget()
+
 
 def equip_items(equipment, enemy):
     attack_btn.pack_forget()
@@ -183,7 +193,7 @@ def start_game():
 def on_resize(event):
     new_size = max(10, int(event.height / 40))
     output_label.config(
-        wraplength = event.width - 40,
+        #wraplength = event.width - 40,
         font = ("Arial", new_size)
     )
 root.bind("<Configure>", on_resize)
