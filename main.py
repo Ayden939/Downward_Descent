@@ -10,6 +10,7 @@ root is where tkinter places it
 """
 
 import tkinter as tk
+import tkinter.font as tkfont
 import tkinter.simpledialog as simpledialog
 from character import Character
 from enemy import Skeleton, Goblin, Orc, Phantom, King
@@ -29,7 +30,9 @@ enemy = random.choice([Skeleton(), Goblin()])
 # Tkinter GUI setup
 root = tk.Tk()      # This creates the window, and root.title just applies the title to it
 root.title("Legacy Game")
-root.geometry("500x300")
+root.geometry("900x650")
+root.resizable(False, False)
+shared_font = tkfont.Font(family="Arial", size=15)
 
 # Character name
 name = simpledialog.askstring("Name", "What is your heros name: ")
@@ -37,20 +40,20 @@ if name:
     hero.name = name
 
 # Info Labels
-floor_label = tk.Label(root, text="")
-floor_label.pack(padx = 1, pady = 1)
+floor_label = tk.Label(root, text="", font = shared_font)
+floor_label.pack(padx = 1, pady = (30,1))
 
 
-hero_label = tk.Label(root, text="")
+hero_label = tk.Label(root, text="", font = shared_font)
 hero_label.pack(padx = 1, pady = 1)
 
 
-enemy_label = tk.Label(root, text="")
+enemy_label = tk.Label(root, text="", font = shared_font)
 enemy_label.pack(padx = 1, pady = 1)
 
-
-output_label = tk.Label(root, text = "")
+output_label = tk.Label(root, text = "", font = shared_font)
 output_label.pack(expand = True, fill = "both", padx = 1, pady = 1)
+
 
 # Styling
 
@@ -59,7 +62,9 @@ root.configure(bg="black")
 hero_label.config(bg="black", fg="white")
 enemy_label.config(bg="black", fg="white")
 floor_label.config(bg="black", fg="white")
+
 output_label.config(bg="black", fg="white", wraplength=450)
+
 
 output_label.config(text = "Five years ago the world was peaceful. People attended daily life, children went to school, people dated, traveled,"
 "life was... good.\n\n"
@@ -116,6 +121,7 @@ def update_labels(text):
     enemy_label.config(text = f"{enemy.name} HP: {enemy.health}")
     output_label.config(text = text)
 
+
 def disable_buttons():
     attack_btn.config(state = "disabled")
     heal_btn.config(state = "disabled")
@@ -135,17 +141,17 @@ def new_floor():
         pool = [King()]
     else:
         disable_buttons()
+        floor_label.config(text = "")
+        hero_label.config(text = "")
+        enemy_label.config(text = "")
         output_label.config(text = "The king staggers...")
-        root.after(1500, lambda: win())
+        root.after(2000, lambda: win())
         return
     
     enemy = random.choice(pool)
     update_labels(f"A {enemy.name} appears!")
 
 def win():
-    floor_label.config(text = "")
-    hero_label.config(text = "")
-    enemy_label.config(text = "")
     output_label.config(text = "As the King of Monsters collapses before you, the dungeon falls silent.\n\n"
     "With his final breath, he speaks:\n\n"
     "\"You may have won... today.\n\n"
@@ -197,17 +203,10 @@ def start_game():
     hero_label.config(text=f"{hero.name} HP: {hero.health} | Gold: {hero.gold}")
     enemy_label.config(text=f"{enemy.name} Enemy HP: {enemy.health}")
 
-def on_resize(event):
-    new_size = max(10, int(event.height / 40))
-    output_label.config(
-        #wraplength = event.width - 40,
-        font = ("Arial", new_size)
-    )
-root.bind("<Configure>", on_resize)
 
 # This will create my buttons
 button_frame = tk.Frame(root, bg="black")
-button_frame.pack(pady=10)
+button_frame.pack(pady=30)
 attack_btn = tk.Button(button_frame, text = "Attack", command = attack)
 attack_btn.pack(side = "left", padx = 5)
 heal_btn = tk.Button(button_frame, text = "Heal", command = heal)
@@ -220,11 +219,11 @@ start_btn = tk.Button(root, text = "Descend", command = start_game)
 start_btn.pack(pady = 10)
 
 # This will create a pop-up for equipping items
-equip_screen = tk.Frame(root)
+equip_screen = tk.Frame(root, bg = "black")
 yes_btn = tk.Button(equip_screen, text = "Yes")
-yes_btn.pack(side="left")
+yes_btn.pack(side="left", padx = 5, pady = 10)
 no_btn = tk.Button(equip_screen, text = "No")
-no_btn.pack(side="right")
+no_btn.pack(side="right", padx = 5, pady = 10)
 equip_screen.pack_forget()
 
 root.mainloop()
