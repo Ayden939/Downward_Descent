@@ -80,7 +80,7 @@ def attack():
         gold_drop = random.randint(10,25)
         hero.gold += gold_drop
         update_labels(f"Enemy defeated!")
-        item = loot_drop(enemy.rarity, hero)
+        item = loot_drop(enemy.rarity, hero, floor)
         log(hero.name, hero.generation, "Killed Enemy", 0, floor)
         if item:
             disable_buttons()

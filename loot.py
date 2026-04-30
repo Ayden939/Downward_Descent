@@ -1,21 +1,31 @@
 import random
-from equipment import Sword, Shield
+from equipment import Sword, IronSword, SteelSword, Shield, IronShield, SteelShield
 
-def loot_drop(rarity, hero):
+def loot_drop(rarity, hero, floor):
     
     possible_drops = []
     weights = []
 
-    if hero.weapon is None:
-        possible_drops.append(Sword())
+    if floor <= 4:
+        weapon = Sword()
+        armor = Shield()
+    elif floor <= 7:
+        weapon = IronSword()
+        armor = IronShield()
+    else:
+        weapon = SteelSword()
+        armor = SteelShield()
+
+    if hero.weapon is None or weapon.attack > hero.weapon.attack:
+        possible_drops.append(weapon)
+        weights.append(.3)
+
+    if hero.armor is None or armor.defense > hero.armor.defense:
+        possible_drops.append(armor)
         weights.append(.4)
 
-    if hero.armor is None:
-        possible_drops.append(Shield())
-        weights.append(.5)
-
     possible_drops.append(None)
-    weights.append(.1)
+    weights.append(.3)
 
     choice = random.choices(possible_drops, weights = weights, k = 1)[0]
 
