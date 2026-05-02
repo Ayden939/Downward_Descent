@@ -156,7 +156,10 @@ def new_floor():
         return
     
     enemy = random.choice(pool)
-    update_labels(f"A {enemy.name} appears!")
+    if floor == 10:
+        update_labels(f"The {enemy.name} appears!")
+    else:
+        update_labels(f"A {enemy.name} appears!")
 
 def win():
     output_label.config(text = "As the King of Monsters collapses before you, the dungeon falls silent.\n\n"
