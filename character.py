@@ -12,7 +12,8 @@ class  Character:
     def __init__(self, name, generation, gold = 0, weapon = None, armor = None):
         self.name = name
         self.floor = 1
-        self.health = 100
+        self.max_health = 100
+        self.health = self.max_health
         self.strength = 20
         self.generation = generation
         self.gold = gold
@@ -48,17 +49,17 @@ class  Character:
         return strike
 
     def heal(self):
-        if self.health < 100:
+        if self.health < self.max_health:
             amount = random.choice([5,10,15,20])
-            if self.health + amount < 100:
+            if self.health + amount < self.max_health:
                 self.health = self.health + amount
                 #print(f"{self.name} gains {amount} health!")
                 damage = random.choice([0, 10, 15])
                 damage = self.incoming_damage(damage)
                 return amount, damage
             else:
-                difference = 100 - self.health
-                self.health = 100
+                difference = self.max_health - self.health
+                self.health = self.max_health
                 #print(f"{self.name} gains {difference} health!")
                 damage = random.choice([0, 10, 15])
                 damage = self.incoming_damage(damage)

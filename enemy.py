@@ -15,8 +15,10 @@ class Enemy:
 
     def attack(self, target):
         strike = self.strength + random.randint(5,20)
-        print(f"{self.name} attacks {target.name} for {strike} damage!")
-        target.incoming_damage(strike)
+        damage = target.incoming_damage(strike)
+        print(f"{self.name} attacks {target.name} for {damage} damage!")
+        return damage
+
     
     def incoming_damage(self, damage):
         print(f"{self.name} takes {damage} damage!")

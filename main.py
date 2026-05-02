@@ -19,6 +19,7 @@ import database
 import random
 from equipment import Sword, Shield
 from loot import loot_drop
+from shop import shop_inventory, purchase_item
 
 
 
@@ -26,6 +27,7 @@ from loot import loot_drop
 hero = Character("Lady Samantha Rostnovak", 1)
 floor = 1
 enemy = random.choice([Skeleton(), Goblin()])
+current_shop_items = []
 
 # Tkinter GUI setup
 root = tk.Tk()      # This creates the window, and root.title just applies the title to it
@@ -77,7 +79,7 @@ f" demons, and end this. Good luck, and farewll {hero.name}.")
 def attack():
     damage = hero.attack(enemy)
     if(enemy.health <= 0):
-        gold_drop = random.randint(10,25)
+        gold_drop = random.randint(9 + floor, 25 + floor * 3)
         hero.gold += gold_drop
         update_labels(f"Enemy defeated!")
         item = loot_drop(enemy.rarity, hero, floor)
@@ -89,8 +91,9 @@ def attack():
             root.after(1000, new_floor)
         return
         
-    enemy.attack(hero)
-    update_labels(f"{hero.name} attacks {enemy.name} for {damage} damage!")
+    enemy_damage = enemy.attack(hero)
+    update_labels(f"{hero.name} attacks {enemy.name} for {damage} damage!\n"
+    f"{enemy.name} hits back for {enemy_damage} damage!")
 
     if(hero.health <= 0):
         update_labels("Defeated")
@@ -131,6 +134,10 @@ def new_floor():
     global floor, enemy
     floor = floor + 1
     floor_label.config(text = f"Floor: {floor}")
+    if floor % 3 == 0:
+        open_shop()
+        return
+    
     if(floor <= 4):
         pool = [Skeleton(), Goblin()]
     elif(floor >= 5 and floor <= 7):
@@ -162,6 +169,43 @@ def win():
     heal_btn.pack_forget()
     retreat_btn.pack_forget()
 
+def open_shop():
+
+    attack_btn.pack_forget()
+    heal_btn.pack_forget()
+    retreat_btn.pack_forget()
+    button_frame.pack_forget()
+
+    items = shop_inventory()
+    output_label.config(text = "")
+    text = "A strange creature appears, offering wares...\n\n"
+
+    for i, item in enumerate(items, 1):
+        text += f"{i}) {item['name']} (+{item['value']}): {item['cost']} gold\n"
+
+    shop_label.config(text=text)
+
+    global current_shop_items
+    current_shop_items = items
+    
+    shop_frame.pack(pady = 20)
+
+def buy(index):
+    item = current_shop_items[index]
+    success, message = purchase_item(hero, item)
+
+    output_label.config(text=message)
+
+    if not success:
+        return
+
+    if success:
+        update_labels("")
+
+    shop_frame.pack_forget()
+    enable_actions()
+    button_frame.pack(pady = 30)
+    root.after(800, new_floor)
 
 def equip_items(equipment, enemy):
     attack_btn.pack_forget()
@@ -225,6 +269,20 @@ yes_btn.pack(side="left", padx = 5, pady = 10)
 no_btn = tk.Button(equip_screen, text = "No")
 no_btn.pack(side="right", padx = 5, pady = 10)
 equip_screen.pack_forget()
+
+# This will create a pop up for the shop (I hope)
+shop_frame = tk.Frame(root, bg = "black")
+shop_label = tk.Label(shop_frame, text="", bg="black", fg="white", font=shared_font)
+shop_label.pack(pady=10)
+btn1 = tk.Button(shop_frame, text="Minor Health Upgrade", command=lambda: buy(0))
+btn1.pack(pady = 10, padx = 10, side = "left")
+btn2 = tk.Button(shop_frame, text="Major Health Upgrade", command=lambda: buy(1))
+btn2.pack(pady = 10, padx = 10, side = "left")
+btn3 = tk.Button(shop_frame, text="Minor Attack Boost", command=lambda: buy(2))
+btn3.pack(pady = 10, padx = 10, side = "left")
+btn4 = tk.Button(shop_frame, text="Major Attack Boost", command=lambda: buy(3))
+btn4.pack(pady = 10, padx = 10, side = "left")
+shop_frame.pack_forget()
 
 root.mainloop()
 
