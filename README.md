@@ -15,6 +15,9 @@ How To Play:
 2. In the command prompt enter python3 main.py
 3. Have fun!
 
+Alternatively, you can find an executable version here:
+https://ayden939.itch.io/downward-descent
+
 
 Tech Stack:
 Python 3
