@@ -74,7 +74,7 @@ output_label.config(text = "Five years ago the world was peaceful. People attend
 "Since then, over half of the "
 "worlds population was simply destroyed. Cities burned, homes were lost, people were killed. \n\n"
 "You are the last hope of humanity. Descend the depths of this dungeon, find the king of these"
-f" demons, and end this. Good luck, and farewll {hero.name}.")
+f" demons, and end this. Good luck, and farewell {hero.name}.")
 
 def attack():
     damage = hero.attack(enemy)
