@@ -31,7 +31,7 @@ current_shop_items = []
 
 # Tkinter GUI setup
 root = tk.Tk()      # This creates the window, and root.title just applies the title to it
-root.title("Legacy Game")
+root.title("Downward Descent")
 root.geometry("900x650")
 root.resizable(False, False)
 shared_font = tkfont.Font(family="Arial", size=15)
